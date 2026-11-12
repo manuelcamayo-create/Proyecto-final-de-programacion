@@ -17,7 +17,7 @@ void Antena::asignarResponsable(Tecnico* _responsable) { responsableMantenimient
 void Antena::mostrarInformacion() const {
     std::cout << "    Antena #" << idAntena << " | " << tecnologia << " | "
               << frecuenciaMHz << " MHz | Responsable: ";
-    if (responsableMantenimiento != nullptr) {   // guarda defensiva
+    if (responsableMantenimiento != nullptr) { 
         std::cout << responsableMantenimiento->getNombre();
     } else {
         std::cout << "(sin asignar)";
