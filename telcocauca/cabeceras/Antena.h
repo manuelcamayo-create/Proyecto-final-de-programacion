@@ -10,8 +10,8 @@ class Antena {
 private:
     int idAntena;
     double frecuenciaMHz;
-    std::string tecnologia;               // "4G" / "5G"
-    Tecnico* responsableMantenimiento;    // Asociacion 1:1
+    std::string tecnologia;              
+    Tecnico* responsableMantenimiento;    
 public:
     Antena(int _id, double _frecuenciaMHz, const std::string& _tecnologia,
            Tecnico* _responsable = nullptr);
@@ -26,4 +26,4 @@ public:
     void mostrarInformacion() const;
 };
 
-#endif // ANTENA_H
+#endif 
