@@ -1,6 +1,4 @@
-// ============================================================================
-// MODULO 1 - Entidad Tecnico (atributos privados, getters/setters, mostrarInformacion)
-// ============================================================================
+
 #ifndef TECNICO_H
 #define TECNICO_H
 
@@ -24,4 +22,4 @@ public:
     void mostrarInformacion() const;
 };
 
-#endif // TECNICO_H
+#endif 
