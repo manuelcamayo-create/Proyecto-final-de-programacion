@@ -1,9 +1,4 @@
-// ============================================================================
-// CRITERIO 3 (Sockets TCP/UDP) + CRITERIO 4 (Resiliencia) - TELEMETRIA UDP
-// ReceptorUDP: socket(SOCK_DGRAM) -> bind() -> recvfrom() con timeout SO_RCVTIMEO (3 s)
-//              Si vence el timeout lanza ExcepcionRedUDP (EAGAIN/EWOULDBLOCK).
-// EmisorUDP:   socket(SOCK_DGRAM) -> sendto()  (sin conexion previa)
-// ============================================================================
+
 #ifndef RED_UDP_H
 #define RED_UDP_H
 
@@ -24,7 +19,7 @@ private:
     int timeoutSegundos;
     DescriptorSocket sock;
     std::vector<TramaSensor> recibidas;
-    mutable std::mutex mtx;               // protege 'recibidas'
+    mutable std::mutex mtx;               
     std::atomic<bool> detener;
 
     void guardar(const TramaSensor& t) {
@@ -35,7 +30,7 @@ public:
     ReceptorUDP(uint16_t _puerto, int _timeoutSegundos = 3)
         : puerto(_puerto), timeoutSegundos(_timeoutSegundos), detener(false) {}
 
-    // socket() + bind() + timeout. Se llama ANTES de lanzar el hilo (el puerto ya queda enlazado).
+    
     void abrir() {
         socket_t fd = socket(AF_INET, SOCK_DGRAM, 0);
         if (fd == SOCKET_NULO) throw ExcepcionSocket("Fallo al crear socket UDP", ultimoErrorRed());
@@ -52,7 +47,7 @@ public:
                               " (timeout " + aTexto(timeoutSegundos) + " s)");
     }
 
-    // recvfrom(): operacion bloqueante limitada por SO_RCVTIMEO
+    
     TramaSensor recibirUna() {
         TramaSensor trama;
         std::memset(&trama, 0, sizeof(trama));
@@ -76,8 +71,6 @@ public:
         return trama;
     }
 
-    // PRUEBA DE RESILIENCIA: espera N tramas; si el emisor "se desconecta", vence el timeout,
-    // se lanza ExcepcionRedUDP y el hilo la captura (el programa NO se cae).
     void ejecutar(int esperadas) {
         int recibidasOk = 0;
         try {
@@ -104,7 +97,7 @@ public:
         }
     }
 
-    // Modo servidor: escucha hasta que se pida detener; los timeouts NO son fatales
+    
     void escucharContinuo() {
         try {
             while (!detener) {
@@ -115,7 +108,7 @@ public:
                 }
                 catch (const ExcepcionRedUDP& e) {
                     if (!esTimeout(e.getErrno())) throw;
-                    // timeout: simplemente se vuelve a esperar
+                   
                 }
             }
         }
@@ -149,7 +142,7 @@ public:
         destino = crearDireccion(ip, puerto);
     }
 
-    // sendto(): no requiere conexion previa; cada llamada es un datagrama
+    
     void enviar(const TramaSensor& t) {
         auto n = sendto(sock.get(), reinterpret_cast<const char*>(&t),
                         static_cast<int>(sizeof(t)), 0,
@@ -160,7 +153,7 @@ public:
         }
     }
 
-    // Rutina del hilo emisor
+    
     void ejecutar(std::vector<TramaSensor> tramas, int pausaMs) {
         try {
             for (size_t i = 0; i < tramas.size(); ++i) {
@@ -181,4 +174,4 @@ public:
     }
 };
 
-#endif // RED_UDP_H
+#endif 
