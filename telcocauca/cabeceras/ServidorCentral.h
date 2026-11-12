@@ -1,8 +1,4 @@
-// ============================================================================
-// CRITERIO 3 (Sockets TCP/UDP & Red Distribuida) - SERVIDOR CENTRAL TCP CONCURRENTE
-// socket() -> bind() -> listen() -> bucle accept(); un std::thread por cada cliente.
-// Resiliencia: un error con un cliente se captura en SU hilo y no tumba al servidor.
-// ============================================================================
+
 #ifndef SERVIDOR_CENTRAL_H
 #define SERVIDOR_CENTRAL_H
 
@@ -16,7 +12,7 @@
 #include "Serializacion.h"
 #include "Excepciones.h"
 
-// Buffer compartido entre los hilos de los clientes (protegido con RAII)
+
 class RegistroEstados {
 private:
     std::vector<std::string> estados;
@@ -35,7 +31,7 @@ public:
 class ServidorCentral {
 private:
     uint16_t puerto;
-    DescriptorSocket escucha;              // socket maestro (escucha)
+    DescriptorSocket escucha;              
     std::atomic<bool> detener;
     std::atomic<int> clientesAtendidos;
     RegistroEstados registro;
@@ -44,14 +40,13 @@ public:
     explicit ServidorCentral(uint16_t _puerto)
         : puerto(_puerto), detener(false), clientesAtendidos(0) {}
 
-    // 1) socket()  2) bind()  3) listen()
     void iniciar() {
         socket_t fd = socket(AF_INET, SOCK_STREAM, 0);
         if (fd == SOCKET_NULO) throw ExcepcionSocket("Fallo al crear socket", ultimoErrorRed());
         escucha = DescriptorSocket(fd);
 
 #ifndef _WIN32
-        // En Linux permite reiniciar el servidor sin esperar a que el puerto se libere
+        
         int opcion = 1;
         setsockopt(escucha.get(), SOL_SOCKET, SO_REUSEADDR, &opcion, sizeof(opcion));
 #endif
@@ -66,12 +61,12 @@ public:
         registrarEventoSeguro("Servidor TCP escuchando en el puerto " + aTexto(puerto));
     }
 
-    // 4) Bucle accept(): rutina del hilo del servidor
+  
     void ejecutar() {
-        std::vector<std::thread> hilosClientes;   // solo este hilo los crea y los une
+        std::vector<std::thread> hilosClientes;
         try {
             while (!detener) {
-                // select() con 200 ms permite revisar la bandera 'detener' sin bloquear para siempre
+               
                 int r = esperarLectura(escucha.get(), 200);
                 if (r < 0) {
                     int codigo = ultimoErrorRed();
@@ -84,14 +79,14 @@ public:
                 lon_dir_t len = sizeof(cli);
                 socket_t fdCliente = accept(escucha.get(), reinterpret_cast<sockaddr*>(&cli), &len);
                 if (fdCliente == SOCKET_NULO) {
-                    // Un accept fallido NO derriba al servidor
+                    
                     registrarEventoSeguro(std::string("accept() fallido: ") +
                                           ExcepcionSocket("accept()", ultimoErrorRed()).what());
                     continue;
                 }
                 std::string ipCliente = ipATexto(cli) + ":" + aTexto(ntohs(cli.sin_port));
 
-                // Un hilo dedicado por cliente (funcion miembro: &Clase::metodo, this, args)
+                
                 hilosClientes.push_back(std::thread(&ServidorCentral::atenderCliente,
                                                     this, fdCliente, ipCliente));
             }
@@ -106,14 +101,14 @@ public:
             registrarEventoSeguro("EXCEPCION desconocida en el servidor");
         }
 
-        for (auto& t : hilosClientes) {   // sincronizacion obligatoria
+        for (auto& t : hilosClientes) {   
             if (t.joinable()) t.join();
         }
     }
 
-    // Rutina del hilo de cada cliente: recv() + deserializacion + ACK
+    
     void atenderCliente(socket_t fdCliente, std::string ipCliente) {
-        DescriptorSocket cliente(fdCliente);   // RAII: close() automatico
+        DescriptorSocket cliente(fdCliente); 
         try {
             configurarTimeoutRecepcion(cliente.get(), 1);
             std::string pendiente;
@@ -121,19 +116,19 @@ public:
 
             while (true) {
                 auto n = recv(cliente.get(), buffer, static_cast<int>(sizeof(buffer)), 0);
-                if (n == 0) break;                         // el cliente cerro la conexion
+                if (n == 0) break;                        
                 if (n < 0) {
                     int codigo = ultimoErrorRed();
                     if (esInterrupcion(codigo)) continue;
                     if (esTimeout(codigo)) {
-                        if (detener) break;                // servidor en apagado
-                        continue;                          // cliente inactivo: seguir esperando
+                        if (detener) break;                
+                        continue;                         
                     }
                     throw ExcepcionSocket("Fallo en recv() con " + ipCliente, codigo);
                 }
                 pendiente.append(buffer, static_cast<size_t>(n));
 
-                // TCP no preserva fronteras de mensaje -> se separan tramas por '\n'
+                
                 size_t pos;
                 while ((pos = pendiente.find('\n')) != std::string::npos) {
                     std::string linea = pendiente.substr(0, pos);
@@ -172,4 +167,4 @@ public:
     size_t getTramasRecibidas() const { return registro.cantidad(); }
 };
 
-#endif // SERVIDOR_CENTRAL_H
+#endif 
