@@ -1,6 +1,4 @@
-// ============================================================================
-// MODULO 2 - Clase base SensorIoT (segunda rama de la herencia multiple)
-// ============================================================================
+
 #ifndef SENSOR_IOT_H
 #define SENSOR_IOT_H
 
@@ -18,4 +16,4 @@ public:
     double getValorLectura() const { return valorLectura; }
 };
 
-#endif // SENSOR_IOT_H
+#endif 
