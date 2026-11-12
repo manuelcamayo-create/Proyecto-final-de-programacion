@@ -1,5 +1,5 @@
 #include "Torre.h"
-#include "Antena.h"     // Aqui si se necesita el tipo completo
+#include "Antena.h"  
 #include <iostream>
 #include <stdexcept>
 
