@@ -1,9 +1,4 @@
-// ============================================================================
-// MODULO 2 - NodoRedInteligente: HERENCIA MULTIPLE (DispositivoRed + SensorIoT)
-// - Invocacion explicita de los constructores base en la lista de inicializacion
-// - operator+ (suma de carga de procesamiento) y operator<< (friend)
-// - ExcepcionNodoRed ante lecturas fuera de rango o IP invalida
-// ============================================================================
+
 #ifndef NODO_RED_INTELIGENTE_H
 #define NODO_RED_INTELIGENTE_H
 
@@ -46,7 +41,7 @@ public:
         return cargaProcesamiento + otro.cargaProcesamiento;
     }
 
-    // Impresion limpia en consola (funcion amiga)
+    // Impresion limpia en consola 
     friend std::ostream& operator<<(std::ostream& os, const NodoRedInteligente& n) {
         os << "  NodoInteligente [IP: " << n.direccionIP << " | MAC: " << n.direccionMAC
            << " | " << n.tipoSensor << ": " << n.valorLectura
@@ -55,4 +50,4 @@ public:
     }
 };
 
-#endif // NODO_RED_INTELIGENTE_H
+#endif 
