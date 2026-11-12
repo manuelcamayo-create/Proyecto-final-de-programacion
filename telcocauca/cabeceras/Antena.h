@@ -1,6 +1,4 @@
-// ============================================================================
-// MODULO 1 - Entidad Antena. Asociacion 1:1 con Tecnico (puntero, no es duena)
-// ============================================================================
+
 #ifndef ANTENA_H
 #define ANTENA_H
 
