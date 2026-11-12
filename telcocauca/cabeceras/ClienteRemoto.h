@@ -1,8 +1,4 @@
-// ============================================================================
-// CRITERIO 3 (Sockets TCP/UDP & Red Distribuida) - NODO REMOTO CLIENTE TCP
-// socket() -> connect() -> send()/recv() -> close() (RAII)
-// Serializa cada dispositivo (ITransmisible::serializar) y lo envia al Servidor Central.
-// ============================================================================
+
 #ifndef CLIENTE_REMOTO_H
 #define CLIENTE_REMOTO_H
 
@@ -23,7 +19,7 @@ public:
     ClienteRemoto(const std::string& _nombre, const std::string& _ipServidor, uint16_t _puerto)
         : nombre(_nombre), ipServidor(_ipServidor), puerto(_puerto) {}
 
-    // Rutina del hilo del cliente (se lanza como funcion miembro)
+   
     void ejecutar(std::vector<DispositivoComunicacion*> dispositivos, EstadisticasRed& est) {
         try {
             socket_t fd = socket(AF_INET, SOCK_STREAM, 0);
@@ -49,7 +45,7 @@ public:
                     est.sumarExito();
                 }
                 catch (const std::invalid_argument& e) {
-                    // Un dispositivo nulo se omite; el resto de las tramas continua
+                    
                     est.sumarFallo();
                     registrarEventoSeguro(nombre + ": EXCEPCION capturada: " + e.what());
                 }
@@ -72,4 +68,4 @@ public:
     }
 };
 
-#endif // CLIENTE_REMOTO_H
+#endif 
