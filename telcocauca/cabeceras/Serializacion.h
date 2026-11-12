@@ -1,7 +1,4 @@
-// ============================================================================
-// CRITERIO 3 - Deserializacion de tramas de texto (TCP)
-// Formato: tipo|id|ip|detalle   (lo produce ITransmisible::serializar())
-// ============================================================================
+
 #ifndef SERIALIZACION_H
 #define SERIALIZACION_H
 
@@ -36,4 +33,4 @@ inline EstadoDispositivo deserializarEstado(const std::string& linea) {
     return e;
 }
 
-#endif // SERIALIZACION_H
+#endif
