@@ -1,6 +1,4 @@
-// ============================================================================
-// MODULO 2 - Clase base DispositivoRed (primera rama de la herencia multiple)
-// ============================================================================
+
 #ifndef DISPOSITIVO_RED_H
 #define DISPOSITIVO_RED_H
 
@@ -21,4 +19,4 @@ public:
     void setEstadoOperativo(bool operativo) { estadoOperativo = operativo; }
 };
 
-#endif // DISPOSITIVO_RED_H
+#endif 
