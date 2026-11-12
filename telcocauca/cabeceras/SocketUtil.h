@@ -1,12 +1,4 @@
-// ============================================================================
-// CRITERIO 3 (Sockets TCP/UDP & Red Distribuida) - CAPA DE COMPATIBILIDAD
-// Funciona en Windows (Winsock2, MinGW + Zinjal) y en Linux/POSIX.
-//  - Windows: se enlaza con  -lws2_32   y se inicializa con WSAStartup()
-//  - Linux:   no requiere librerias extra
-// DescriptorSocket es un envoltorio RAII: cierra el socket automaticamente.
-// IMPORTANTE: en main.cpp este archivo se incluye PRIMERO (winsock2.h debe ir antes
-// que cualquier otra cabecera de Windows).
-// ============================================================================
+
 #ifndef SOCKET_UTIL_H
 #define SOCKET_UTIL_H
 
@@ -35,9 +27,7 @@
 #include "Utilidades.h"
 #include "Excepciones.h"
 
-// ---------------------------------------------------------------------------
-// Tipos y constantes segun la plataforma
-// ---------------------------------------------------------------------------
+
 #ifdef _WIN32
     typedef SOCKET socket_t;
     static const socket_t SOCKET_NULO = INVALID_SOCKET;
@@ -48,13 +38,12 @@
     static const socket_t SOCKET_NULO = -1;
     typedef socklen_t lon_dir_t;
     #ifdef MSG_NOSIGNAL
-    static const int BANDERA_ENVIO = MSG_NOSIGNAL;   // evita SIGPIPE si el cliente se cae
+    static const int BANDERA_ENVIO = MSG_NOSIGNAL;   
     #else
     static const int BANDERA_ENVIO = 0;
     #endif
 #endif
 
-// Codigo de error de la ultima operacion de red (errno / WSAGetLastError)
 inline int ultimoErrorRed() {
 #ifdef _WIN32
     return WSAGetLastError();
@@ -63,8 +52,7 @@ inline int ultimoErrorRed() {
 #endif
 }
 
-// El error corresponde al vencimiento de SO_RCVTIMEO (EAGAIN/EWOULDBLOCK en POSIX,
-// WSAETIMEDOUT/WSAEWOULDBLOCK en Windows)
+
 inline bool esTimeout(int codigo) {
 #ifdef _WIN32
     return codigo == WSAETIMEDOUT || codigo == WSAEWOULDBLOCK;
@@ -81,7 +69,7 @@ inline bool esInterrupcion(int codigo) {
 #endif
 }
 
-// Inicializa Winsock en Windows (WSAStartup / WSACleanup). En Linux no hace nada.
+
 class InicializadorRed {
 public:
     InicializadorRed() {
@@ -102,7 +90,7 @@ public:
     InicializadorRed& operator=(const InicializadorRed&) = delete;
 };
 
-// RAII: el descriptor se cierra solo, incluso si se lanza una excepcion
+
 class DescriptorSocket {
 private:
     socket_t fd;
@@ -138,7 +126,7 @@ public:
     }
 };
 
-// Construye un sockaddr_in (IP + puerto en orden de red). Solo IPv4 con formato a.b.c.d
+
 inline sockaddr_in crearDireccion(const std::string& ip, uint16_t puerto) {
     sockaddr_in dir;
     std::memset(&dir, 0, sizeof(dir));
@@ -160,15 +148,14 @@ inline sockaddr_in crearDireccion(const std::string& ip, uint16_t puerto) {
     return dir;
 }
 
-// Convierte la IP de un sockaddr_in a texto "a.b.c.d"
+
 inline std::string ipATexto(const sockaddr_in& dir) {
     uint32_t v = ntohl(dir.sin_addr.s_addr);
     return aTexto((v >> 24) & 0xFF) + "." + aTexto((v >> 16) & 0xFF) + "." +
            aTexto((v >> 8) & 0xFF) + "." + aTexto(v & 0xFF);
 }
 
-// Timeout de recepcion (SO_RCVTIMEO): evita el bloqueo indefinido de recv/recvfrom.
-// POSIX usa struct timeval; Windows usa un DWORD en milisegundos.
+
 inline void configurarTimeoutRecepcion(socket_t fd, int segundos) {
 #ifdef _WIN32
     DWORD ms = static_cast<DWORD>(segundos) * 1000;
@@ -185,8 +172,6 @@ inline void configurarTimeoutRecepcion(socket_t fd, int segundos) {
     }
 }
 
-// Espera hasta 'ms' milisegundos a que haya una conexion o datos pendientes.
-// Devuelve >0 si esta listo, 0 si vencio el tiempo, <0 si hubo error.
 inline int esperarLectura(socket_t fd, int ms) {
     fd_set conjunto;
     FD_ZERO(&conjunto);
@@ -197,7 +182,6 @@ inline int esperarLectura(socket_t fd, int ms) {
     return select(static_cast<int>(fd) + 1, &conjunto, nullptr, nullptr, &tv);
 }
 
-// TCP es un flujo de bytes: send() puede enviar menos de lo pedido -> se repite
 inline void enviarTodo(socket_t fd, const std::string& datos) {
     size_t enviado = 0;
     while (enviado < datos.size()) {
@@ -212,7 +196,7 @@ inline void enviarTodo(socket_t fd, const std::string& datos) {
     }
 }
 
-// Lee una linea terminada en '\n' (protocolo de trama sobre el flujo TCP)
+
 inline std::string recibirLinea(socket_t fd) {
     std::string linea;
     char c;
@@ -234,4 +218,4 @@ inline std::string recibirLinea(socket_t fd) {
     }
 }
 
-#endif // SOCKET_UTIL_H
+#endif 
