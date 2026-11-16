@@ -15,8 +15,8 @@ Tecnico* Antena::getResponsable() const { return responsableMantenimiento; }
 void Antena::asignarResponsable(Tecnico* _responsable) { responsableMantenimiento = _responsable; }
 
 void Antena::mostrarInformacion() const {
-    std::cout << "    Antena #" << idAntena << " | " << tecnologia << " | "
-              << frecuenciaMHz << " MHz | Responsable: ";
+    std::cout << "    Antena numero  :" << idAntena << " | " << tecnologia << " | "
+              << frecuenciaMHz << " MHz | el responsable: ";
     if (responsableMantenimiento != nullptr) { 
         std::cout << responsableMantenimiento->getNombre();
     } else {

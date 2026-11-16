@@ -13,6 +13,6 @@ void Tecnico::setNombre(const std::string& _nombre) { nombre = _nombre; }
 void Tecnico::setEspecialidad(const std::string& _especialidad) { especialidad = _especialidad; }
 
 void Tecnico::mostrarInformacion() const {
-    std::cout << "  Tecnico #" << idTecnico << " | " << nombre
+    std::cout << "  Tecnico numelo: " << idTecnico << " | " << nombre
               << " | Especialidad: " << especialidad << std::endl;
 }

@@ -26,7 +26,7 @@ static const uint16_t PUERTO_UDP = 8081;
 
 static void titulo(const std::string& texto) {
     imprimirSeguro("\n= " + texto + " 	=");
-}
+}	
 
 
 static void subtitulo(const std::string& texto) {
@@ -52,7 +52,7 @@ static void liberarRed(std::vector<DispositivoComunicacion*>& red) {
 
 
 static std::vector<EventoIngenieria2027::Evento> crearEventos2027() {
-    EventoIngenieria2027::Evento icassp   = { "IEEE ICASSP", 2027 };
+    EventoIngenieria2027::Evento icassp   = { " \n IEEE ICASSP ", 2027 };
     EventoIngenieria2027::Evento icc      = { "IEEE ICC", 2027 };
     EventoIngenieria2027::Evento wfiot    = { "IEEE WF-IoT", 2027 };
     EventoIngenieria2027::Evento invalido = { "", 2027 };
@@ -112,7 +112,7 @@ static void bloque1POO(const std::vector<DispositivoComunicacion*>& red) {
 
 static void bloque2Hilos(std::vector<DispositivoComunicacion*>& red,
                          EstadisticasRed& estadisticas, EventoIngenieria2027& agenda) {
-    titulo("2. Hilos, mutex y eventos 2027");
+    titulo(".. Hilos, mutex y eventos 2027");
 
     subtitulo("Un hilo por dispositivo (cada uno termina cuando acaba su transmision)");
     SupervisorRed supervisor;
@@ -141,7 +141,7 @@ static void ejecutarNodoRemoto(ClienteRemoto& nodo, const std::string& descripci
 }
 
 static void bloque3TCP(const std::vector<DispositivoComunicacion*>& red, EstadisticasRed& estadisticas) {
-    titulo("3. Red TCP: servidor central y nodos remotos");
+    titulo("... Red TCP: servidor central y nodos remotos");
 
 
     subtitulo("Servidor Central (un hilo por cada cliente aceptado)");
@@ -175,10 +175,10 @@ static void bloque3TCP(const std::vector<DispositivoComunicacion*>& red, Estadis
 }
 
 static void bloque4UDP() {
-    titulo("4. Red UDP: telemetria con timeout de 3 s");
+    titulo(" Red UDP: telemetria con timeout de 3 s");
 
     try {
-        subtitulo("Receptor UDP (socket + bind + recvfrom con timeout) y emisor (sendto)");
+        subtitulo("....Receptor UDP (socket + bind + recvfrom con timeout) y emisor (sendto)");
         ReceptorUDP receptor(PUERTO_UDP, 3);
         receptor.abrir();
         EmisorUDP emisor("127.0.0.1", PUERTO_UDP);
@@ -207,7 +207,7 @@ int main() {
     try {
         InicializadorRed inicializadorRed;   
 
-        std::cout << "=== TELCOCAUCA: monitoreo distribuido de telecomunicaciones e IoT ===" << std::endl;
+        std::cout << "= TELCOCAUCA: monitoreo distribuido de telecomunicaciones e IoT =" << std::endl;
 
         std::vector<DispositivoComunicacion*> red = crearRedLocal();
         EstadisticasRed estadisticas;
@@ -227,8 +227,8 @@ int main() {
         titulo("Resumen");
         std::cout << "  " << estadisticas.resumen() << std::endl;
         liberarRed(red);
-        std::cout << "  Memoria dinamica liberada (sin fugas)" << std::endl;
-        std::cout << "  Sistema finalizado correctamente." << std::endl;
+        std::cout << "  Memoria dinamica liberada " << std::endl;
+        std::cout << "  Sistema finalizado correctamente :)" << std::endl;
     }
     catch (const std::exception& e) {
         std::cerr << "[Error Catastrofico]: " << e.what() << std::endl;

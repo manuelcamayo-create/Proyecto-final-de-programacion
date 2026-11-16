@@ -60,7 +60,7 @@ public:
         if (bytes < 0) {
             int codigo = ultimoErrorRed();
             if (esTimeout(codigo)) {
-                throw ExcepcionRedUDP("TIMEOUT: No se recibio datagrama", codigo);
+                throw ExcepcionRedUDP("yiempo terminado: No se recibio datagrama", codigo);
             }
             throw ExcepcionRedUDP("ERROR CATASTROFICO UDP", codigo);
         }

@@ -138,7 +138,7 @@ inline sockaddr_in crearDireccion(const std::string& ip, uint16_t puerto) {
     }
     unsigned a, b, c, d;
     char sobrante;
-    if (std::sscanf(ip.c_str(), "%u.%u.%u.%u%c", &a, &b, &c, &d, &sobrante) != 4 ||
+    if (std::sscanf(ip.c_str(), "", &a, &b, &c, &d, &sobrante) != 4 ||
         a > 255 || b > 255 || c > 255 || d > 255) {
         throw ExcepcionSocket("Direccion IP invalida: " + ip);
     }
