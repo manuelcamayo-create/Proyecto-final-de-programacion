@@ -10,7 +10,7 @@
 
 class NodoRedInteligente : public DispositivoRed, public SensorIoT {
 private:
-    double cargaProcesamiento;   // porcentaje de CPU
+    double cargaProcesamiento;   // porcentaje d CPU
 
     static void validarLectura(double v) {
         if (v < -40.0 || v > 125.0) {
