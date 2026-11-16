@@ -25,7 +25,7 @@ static const uint16_t PUERTO_TCP = 8080;
 static const uint16_t PUERTO_UDP = 8081;
 
 static void titulo(const std::string& texto) {
-    imprimirSeguro("\n== " + texto + " ==");
+    imprimirSeguro("\n= " + texto + " 	=");
 }
 
 
@@ -71,7 +71,7 @@ static void bloque1POO(const std::vector<DispositivoComunicacion*>& red) {
 
    
     subtitulo("Modulo 1: Tecnico, Antena y Torre");
-    Tecnico tecnico(1, "Carlos Munoz", "Radiofrecuencia");
+    Tecnico tecnico(1, "Carlos ", "Radiofrecuencia");
     Antena antena1(10, 3500.0, "5G", &tecnico);
     Antena antena2(11, 1800.0, "4G", &tecnico);
     Antena antena3(12, 2600.0, "4G");
