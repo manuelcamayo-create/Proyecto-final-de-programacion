@@ -51,7 +51,7 @@ public:
                 std::this_thread::sleep_for(std::chrono::milliseconds(100));
                 try {
                     registrar(eventos[i]);
-                    registrarEventoSeguro("Evento 2027 registrado: " + eventos[i].nombre);
+                    registrarEventoSeguro("Evento 2027 que se ha registrado: " + eventos[i].nombre);
                 }
                 catch (const std::exception& e) {
                     

@@ -24,7 +24,7 @@ public:
         try {
             socket_t fd = socket(AF_INET, SOCK_STREAM, 0);
             if (fd == SOCKET_NULO) throw ExcepcionSocket("Fallo al crear socket", ultimoErrorRed());
-            DescriptorSocket sock(fd);                       // RAII
+            DescriptorSocket sock(fd);                       
             configurarTimeoutRecepcion(sock.get(), 3);
 
             sockaddr_in destino = crearDireccion(ipServidor, puerto);
@@ -37,7 +37,7 @@ public:
             int enviadas = 0, confirmadas = 0;
             for (size_t i = 0; i < dispositivos.size(); ++i) {
                 try {
-                    validarDispositivo(dispositivos[i]);          // guarda nullptr
+                    validarDispositivo(dispositivos[i]);         
                     enviarTodo(sock.get(), dispositivos[i]->serializar() + "\n");
                     std::string respuesta = recibirLinea(sock.get());
                     ++enviadas;
