@@ -132,12 +132,12 @@ static void bloque2Hilos(std::vector<DispositivoComunicacion*>& red,
 }
 
 
-static void ejecutarNodoRemoto(ClienteRemoto& nodo, const std::string& descripcion,
+static void ejecutarNodoRemoto(ClienteRemoto& nodo, const std::string& descripcion, //hilo del nodo
                                const std::vector<DispositivoComunicacion*>& dispositivos,
                                EstadisticasRed& estadisticas) {
     subtitulo(descripcion);
     std::thread hiloNodo(&ClienteRemoto::ejecutar, &nodo, dispositivos, std::ref(estadisticas));
-    hiloNodo.join();
+    hiloNodo.join(); //hilo del nodo
 }
 
 static void bloque3TCP(const std::vector<DispositivoComunicacion*>& red, EstadisticasRed& estadisticas) {
@@ -153,7 +153,7 @@ static void bloque3TCP(const std::vector<DispositivoComunicacion*>& red, Estadis
         std::cout << "  No se pudo iniciar el servidor: " << e.what() << std::endl;
         return;
     }
-    std::thread hiloServidor(&ServidorCentral::ejecutar, &servidor);
+    std::thread hiloServidor(&ServidorCentral::ejecutar, &servidor); //hilo del servidor
 
     
     ClienteRemoto estacionA("Estacion-A", "127.0.0.1", PUERTO_TCP); //fallo controlado 
@@ -188,10 +188,10 @@ static void bloque4UDP() {
         tramas.push_back(crearTrama(101, "Gateway-LoRa", 24.5f, 60.0f, 1700000000ULL));
         tramas.push_back(crearTrama(502, "Sensor-WiFi", 28.4f, 55.2f, 1700005000ULL));
 
-        std::thread hiloReceptor(&ReceptorUDP::ejecutar, &receptor, 3); 
-        std::thread hiloEmisor(&EmisorUDP::ejecutar, &emisor, tramas, 300);
+        std::thread hiloReceptor(&ReceptorUDP::ejecutar, &receptor, 3);  //hilo receptor
+        std::thread hiloEmisor(&EmisorUDP::ejecutar, &emisor, tramas, 300); //hilo emisor
         hiloEmisor.join();
-        hiloReceptor.join();                                           
+        hiloReceptor.join();   //hilo receptor                                          
     }
     catch (const ExcepcionSocket& e) {
         std::cout << "  No se pudo iniciar UDP: " << e.what() << std::endl;

@@ -28,7 +28,7 @@ public:
             configurarTimeoutRecepcion(sock.get(), 3);
 
             sockaddr_in destino = crearDireccion(ipServidor, puerto);
-            if (connect(sock.get(), reinterpret_cast<sockaddr*>(&destino), //error de conexcion tcp
+            if (connect(sock.get(), reinterpret_cast<sockaddr*>(&destino),  //conect inicia la conexion                           //error de conexcion tcp
                         static_cast<lon_dir_t>(sizeof(destino))) < 0) {
                 throw ExcepcionSocket("Fallo en connect() hacia " + ipServidor + ":" +  //f
                                       aTexto(puerto), ultimoErrorRed());
@@ -38,7 +38,7 @@ public:
             for (size_t i = 0; i < dispositivos.size(); ++i) {
                 try {
                     validarDispositivo(dispositivos[i]);         
-                    enviarTodo(sock.get(), dispositivos[i]->serializar() + "\n");
+                    enviarTodo(sock.get(), dispositivos[i]->serializar() + "\n"); // el cliente llama la funcion para enviar la informacion
                     std::string respuesta = recibirLinea(sock.get());
                     ++enviadas;
                     if (respuesta.compare(0, 3, "ACK") == 0) ++confirmadas;

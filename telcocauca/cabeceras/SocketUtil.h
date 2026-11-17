@@ -185,7 +185,7 @@ inline int esperarLectura(socket_t fd, int ms) {
 inline void enviarTodo(socket_t fd, const std::string& datos) {
     size_t enviado = 0;
     while (enviado < datos.size()) {
-        auto n = send(fd, datos.data() + enviado,
+        auto n = send(fd, datos.data() + enviado, // usa send  para enviar la informacion 
                       static_cast<int>(datos.size() - enviado), BANDERA_ENVIO);
         if (n < 0) {
             int codigo = ultimoErrorRed();

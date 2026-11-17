@@ -62,7 +62,7 @@ public:
     }
 
   
-    void ejecutar() {
+    void ejecutar() { //hilo clientes
         std::vector<std::thread> hilosClientes;
         try {
             while (!detener) {
@@ -103,7 +103,7 @@ public:
 
         for (auto& t : hilosClientes) {   
             if (t.joinable()) t.join();
-        }
+        } //hilo clietnes
     }
 
     
@@ -140,7 +140,7 @@ public:
                         registro.agregar(linea);
                         registrarEventoSeguro("TCP RX " + e.id + " | " + e.tipo + " | " +
                                               e.ip + " | " + e.detalle);
-                        respuesta = "confirmacion de recepcion |" + e.id;
+                        respuesta = "confirmacion de recepcion |" + e.id; // prepara la respuesta el cliente se le acepto la informacion
                     }
                     catch (const ExcepcionSocket& ex) {
                         registrarEventoSeguro(std::string("TCP RX rechazada: ") + ex.what());

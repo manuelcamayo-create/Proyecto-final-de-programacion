@@ -68,7 +68,7 @@ public:
     EstadisticasRed() : exitosas(0), fallidas(0) {}
 
     void sumarExito() {
-        std::lock_guard<std::mutex> lock(mtx);
+        std::lock_guard<std::mutex> lock(mtx); // ttermina el bloque liberando 
         ++exitosas;
     }
     void sumarFallo() {
