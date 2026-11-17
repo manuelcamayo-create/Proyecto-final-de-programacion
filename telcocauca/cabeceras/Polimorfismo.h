@@ -11,11 +11,11 @@
 #include <chrono>
 
 
-class ITransmisible {
+class ITransmisible {                                 //abtraccion 
 public:
     virtual ~ITransmisible() = default;
     virtual void transmitir() = 0;
-    virtual std::string serializar() const = 0;   
+    virtual std::string serializar() const = 0;    //abtraccion 
 };
 
 
@@ -36,21 +36,21 @@ public:
     virtual ~DispositivoComunicacion() = default;
 
     
-    virtual void transmitir() = 0;
+    virtual void transmitir() = 0;   //puro, p
 
     std::string getId() const { return id; }
     std::string getTipo() const { return tipo; }
     std::string getIp() const { return ip; }
 };
 
-class RouterWiFi : public DispositivoComunicacion {
+class RouterWiFi : public DispositivoComunicacion {           //herencia 
 private:
     int canalesActivos;
 public:
     RouterWiFi(std::string _id, std::string _ip, int _canales)
         : DispositivoComunicacion(_id, "Router WiFi 6", _ip), canalesActivos(_canales) {}
 
-    void transmitir() override {
+    void transmitir() override { //polimorfismo
         
         std::this_thread::sleep_for(std::chrono::milliseconds(150));
     }
@@ -66,7 +66,7 @@ public:
     GatewayLoRa(std::string _id, std::string _ip, float _freq)
         : DispositivoComunicacion(_id, "Gateway LoRaWAN", _ip), frecuenciaMHz(_freq) {}
 
-    void transmitir() override {
+    void transmitir() override { //polimorfismo
        
         std::this_thread::sleep_for(std::chrono::milliseconds(200));
     }
@@ -84,14 +84,14 @@ public:
     SwitchFibra(std::string _id, std::string _ip, int _puertos)
         : DispositivoComunicacion(_id, "Switch de Fibra Optica", _ip), puertos(_puertos) {}
 
-    void transmitir() override {
+    void transmitir() override { //polimorfismo
      
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
     std::string serializar() const override {
         return serializarBase("puertos=" + aTexto(puertos));
     }
-};
+};                    //herencia 
 
 
 inline void validarDispositivo(const DispositivoComunicacion* dev) {

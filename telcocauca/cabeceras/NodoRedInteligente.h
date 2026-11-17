@@ -8,7 +8,7 @@
 #include "SensorIoT.h"
 #include "Excepciones.h"
 
-class NodoRedInteligente : public DispositivoRed, public SensorIoT {
+class NodoRedInteligente : public DispositivoRed, public SensorIoT {    //herencia multiplo
 private:
     double cargaProcesamiento;   // porcentaje d CPU
 
@@ -22,7 +22,7 @@ public:
                        const std::string& tipoSensor, double lectura, double carga)
         : DispositivoRed(ip, mac, true),
           SensorIoT(tipoSensor, lectura),
-          cargaProcesamiento(carga) {
+          cargaProcesamiento(carga) {                      //herencia multiple
         if (ip.empty()) {
             throw ExcepcionNodoRed("Direccion IP vacia");
         }
@@ -37,12 +37,12 @@ public:
     double getCarga() const { return cargaProcesamiento; }
 
     // Suma la carga de procesamiento entre dos nodos
-    double operator+(const NodoRedInteligente& otro) const {
+    double operator+(const NodoRedInteligente& otro) const {   //++
         return cargaProcesamiento + otro.cargaProcesamiento;
     }
 
     // Impresion limpia en consola 
-    friend std::ostream& operator<<(std::ostream& os, const NodoRedInteligente& n) {
+    friend std::ostream& operator<<(std::ostream& os, const NodoRedInteligente& n) { //++
         os << "  NodoInteligente [IP: " << n.direccionIP << " | MAC: " << n.direccionMAC
            << " | " << n.tipoSensor << ": " << n.valorLectura
            << " | Carga: " << n.cargaProcesamiento << "%]";
