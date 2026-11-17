@@ -140,7 +140,7 @@ public:
                         registro.agregar(linea);
                         registrarEventoSeguro("TCP RX " + e.id + " | " + e.tipo + " | " +
                                               e.ip + " | " + e.detalle);
-                        respuesta = "ACK|" + e.id;
+                        respuesta = "confirmacion de recepcion |" + e.id;
                     }
                     catch (const ExcepcionSocket& ex) {
                         registrarEventoSeguro(std::string("TCP RX rechazada: ") + ex.what());

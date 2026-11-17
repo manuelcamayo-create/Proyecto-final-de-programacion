@@ -42,7 +42,7 @@ public:
             throw ExcepcionSocket("Error en bind() UDP del puerto " + aTexto(puerto),
                                   ultimoErrorRed());
         }
-        configurarTimeoutRecepcion(sock.get(), timeoutSegundos);
+        configurarTimeoutRecepcion(sock.get(), timeoutSegundos); // configuamos untiempo maximo de espera 
         registrarEventoSeguro("Receptor UDP en el puerto " + aTexto(puerto) +
                               " (timeout " + aTexto(timeoutSegundos) + " s)");
     }

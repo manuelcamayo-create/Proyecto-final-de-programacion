@@ -168,7 +168,7 @@ inline void configurarTimeoutRecepcion(socket_t fd, int segundos) {
     int r = setsockopt(fd, SOL_SOCKET, SO_RCVTIMEO, &tv, sizeof(tv));
 #endif
     if (r < 0) {
-        throw ExcepcionSocket("Fallo en setsockopt)", ultimoErrorRed());
+        throw ExcepcionSocket("Fallo en setsockopt	)", ultimoErrorRed());
     }
 }
 
