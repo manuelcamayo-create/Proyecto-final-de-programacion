@@ -45,7 +45,7 @@ inline void imprimirSeguro(const std::string& texto) {
 //exclucion mutua
 inline void registrarEventoSeguro(const std::string& mensaje) {
    
-    std::lock_guard<std::mutex> lock(mtx_consola);
+    std::lock_guard<std::mutex> lock(mtx_consola); // se usa
     std::cout << "  [" << etiquetaHilo(std::this_thread::get_id()) << "] " << mensaje << std::endl;
 } //excluacion mutua
 

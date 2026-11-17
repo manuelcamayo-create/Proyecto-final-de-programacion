@@ -53,8 +53,8 @@ static void liberarRed(std::vector<DispositivoComunicacion*>& red) {  //liberaci
 
 static std::vector<EventoIngenieria2027::Evento> crearEventos2027() {
     EventoIngenieria2027::Evento icassp   = { " \n IEEE ICASSP ", 2027 };
-    EventoIngenieria2027::Evento icc      = { "IEEE ICC", 2027 };
-    EventoIngenieria2027::Evento wfiot    = { "IEEE WF-IoT", 2027 };
+    EventoIngenieria2027::Evento icc      = { " \n IEEE ICC", 2027 };
+    EventoIngenieria2027::Evento wfiot    = { " \n IEEE WF-IoT", 2027 };
     EventoIngenieria2027::Evento invalido = { "", 2027 };
 
     std::vector<EventoIngenieria2027::Evento> eventos;
@@ -67,10 +67,10 @@ static std::vector<EventoIngenieria2027::Evento> crearEventos2027() {
 
 
 static void bloque1POO(const std::vector<DispositivoComunicacion*>& red) {
-    titulo("1. POO: dominio, herencia y polimorfismo");
+    titulo(". esto es poo dominio, herencia y polimorfismo");
 
    
-    subtitulo("Modulo 1: Tecnico, Antena y Torre");
+    subtitulo("Modulo . Tecnico, Antena y Torre");
     Tecnico tecnico(1, "Carlos ", "Radiofrecuencia");
     Antena antena1(10, 3500.0, "5G", &tecnico);
     Antena antena2(11, 1800.0, "4G", &tecnico);
@@ -87,7 +87,7 @@ static void bloque1POO(const std::vector<DispositivoComunicacion*>& red) {
     catch (const std::invalid_argument& e) {
         std::cout << "  Excepcion (guarda nullptr): " << e.what() << std::endl;
     }
-    subtitulo("Modulo 2: herencia multiple y excepcion personalizada");
+    subtitulo("Modulo .. herencia multiple y excepcion personalizada");
     try {
         NodoRedInteligente nodo1("192.168.1.10", "AA:BB:CC:00:00:01", "Temperatura", 24.5, 35.0);
         NodoRedInteligente nodo2("192.168.1.11", "AA:BB:CC:00:00:02", "Humedad", 60.0, 20.0);
@@ -100,7 +100,7 @@ static void bloque1POO(const std::vector<DispositivoComunicacion*>& red) {
     }
 
    
-    subtitulo("Modulo 3: vector polimorfico y trama empaquetada");
+    subtitulo("Modulo ... vector polimorfico y trama empaquetada");
     std::string ids;
     for (size_t i = 0; i < red.size(); ++i) {
         if (i > 0) ids += ", ";
@@ -120,7 +120,7 @@ static void bloque2Hilos(std::vector<DispositivoComunicacion*>& red,
     sincronizarHilos(hilos);
 
     
-    subtitulo("Hilo dedicado: agenda de eventos 2027");
+    subtitulo("hilo uniico agenda de eventos 2027");
     std::thread hiloAgenda(&EventoIngenieria2027::procesarAgenda,  //hilo unico 
                            &agenda, crearEventos2027(), std::ref(estadisticas));
     if (hiloAgenda.joinable()) {

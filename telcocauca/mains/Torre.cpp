@@ -18,7 +18,7 @@ void Torre::agregarAntena(Antena* antena) {
 size_t Torre::getCantidadAntenas() const { return listaAntenas.size(); }
 
 void Torre::mostrarInformacion() const {
-    std::cout << "  Torre #" << idTorre << " | " << ubicacion << " | " << alturaMetros
+    std::cout << "  Torre numero :" << idTorre << " | " << ubicacion << " | " << alturaMetros
               << " m | Antenas: " << listaAntenas.size() << std::endl;
     for (size_t i = 0; i < listaAntenas.size(); ++i) {
         listaAntenas[i]->mostrarInformacion();

@@ -77,7 +77,7 @@ public:
 
                 sockaddr_in cli;
                 lon_dir_t len = sizeof(cli);
-                socket_t fdCliente = accept(escucha.get(), reinterpret_cast<sockaddr*>(&cli), &len);
+                socket_t fdCliente = accept(escucha.get(), reinterpret_cast<sockaddr*>(&cli), &len); //acepta la conexion del cliente
                 if (fdCliente == SOCKET_NULO) {
                     
                     registrarEventoSeguro(std::string("accept() fallido: ") +
@@ -87,7 +87,7 @@ public:
                 std::string ipCliente = ipATexto(cli) + ":" + aTexto(ntohs(cli.sin_port));
 
                 
-                hilosClientes.push_back(std::thread(&ServidorCentral::atenderCliente,
+                hilosClientes.push_back(std::thread(&ServidorCentral::atenderCliente, //crea un hilo pa atenderlo  sin detener la atencion a los demas
                                                     this, fdCliente, ipCliente));
             }
         }
@@ -115,7 +115,7 @@ public:
             char buffer[256];
 
             while (true) {
-                auto n = recv(cliente.get(), buffer, static_cast<int>(sizeof(buffer)), 0);
+                auto n = recv(cliente.get(), buffer, static_cast<int>(sizeof(buffer)), 0); //recibe datos
                 if (n == 0) break;                        
                 if (n < 0) {
                     int codigo = ultimoErrorRed();
