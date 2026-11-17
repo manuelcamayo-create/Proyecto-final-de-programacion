@@ -41,7 +41,7 @@ public:
         : puerto(_puerto), detener(false), clientesAtendidos(0) {}
 
     void iniciar() {
-        socket_t fd = socket(AF_INET, SOCK_STREAM, 0);
+        socket_t fd = socket(AF_INET, SOCK_STREAM, 0); //socket
         if (fd == SOCKET_NULO) throw ExcepcionSocket("Fallo al crear socket", ultimoErrorRed());
         escucha = DescriptorSocket(fd);
 
@@ -51,9 +51,9 @@ public:
         setsockopt(escucha.get(), SOL_SOCKET, SO_REUSEADDR, &opcion, sizeof(opcion));
 #endif
         sockaddr_in dir = crearDireccion("0.0.0.0", puerto);
-        if (bind(escucha.get(), reinterpret_cast<sockaddr*>(&dir),
+        if (bind(escucha.get(), reinterpret_cast<sockaddr*>(&dir), //bind
                  static_cast<lon_dir_t>(sizeof(dir))) < 0) {
-            throw ExcepcionSocket("Error en bind() del puerto " + aTexto(puerto), ultimoErrorRed());
+            throw ExcepcionSocket("Error en bind() del puerto " + aTexto(puerto), ultimoErrorRed()); //bind
         }
         if (listen(escucha.get(), 5) < 0) {
             throw ExcepcionSocket("Error en listen()", ultimoErrorRed());

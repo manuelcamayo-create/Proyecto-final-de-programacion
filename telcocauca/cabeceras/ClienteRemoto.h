@@ -28,9 +28,9 @@ public:
             configurarTimeoutRecepcion(sock.get(), 3);
 
             sockaddr_in destino = crearDireccion(ipServidor, puerto);
-            if (connect(sock.get(), reinterpret_cast<sockaddr*>(&destino),
+            if (connect(sock.get(), reinterpret_cast<sockaddr*>(&destino), //error de conexcion tcp
                         static_cast<lon_dir_t>(sizeof(destino))) < 0) {
-                throw ExcepcionSocket("Fallo en connect() hacia " + ipServidor + ":" +
+                throw ExcepcionSocket("Fallo en connect() hacia " + ipServidor + ":" +  //f
                                       aTexto(puerto), ultimoErrorRed());
             }
 
@@ -53,10 +53,10 @@ public:
             registrarEventoSeguro(nombre + ": " + aTexto(enviadas) + " tramas enviadas, " +
                                   aTexto(confirmadas) + " confirmadas (ACK)");
         }
-        catch (const ExcepcionSocket& e) {
+        catch (const ExcepcionSocket& e) {  //error conexion
             est.sumarFallo();
             registrarEventoSeguro(nombre + ": EXCEPCION de red: " + e.what());
-        }
+        }    //f
         catch (const std::exception& e) {
             est.sumarFallo();
             registrarEventoSeguro(nombre + ": EXCEPCION: " + e.what());

@@ -12,8 +12,8 @@
 
 inline void tareaTransmisionHilo(DispositivoComunicacion* dev, EstadisticasRed& est) {
     try {
-        validarDispositivo(dev);   // lanza std::invalid_argument si dev == nullptr
-        dev->transmitir();         
+        validarDispositivo(dev);   
+        dev->transmitir();        //declaración del método virtual y sus implementaciones 
         est.sumarExito();
         registrarEventoSeguro(dev->getId() + " transmitio (" + dev->getTipo() + ")");
     }
@@ -30,7 +30,7 @@ inline void tareaTransmisionHilo(DispositivoComunicacion* dev, EstadisticasRed& 
         est.sumarFallo();
         registrarEventoSeguro("EXCEPCION desconocida en el hilo");
     }
-}
+} //try cach en hilos
 
 
 inline void procesarErroresTransportados(const std::vector<std::exception_ptr>& errores) {

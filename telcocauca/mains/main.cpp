@@ -34,7 +34,7 @@ static void subtitulo(const std::string& texto) {
     imprimirSeguro(" - " + texto);
 }
 
-static std::vector<DispositivoComunicacion*> crearRedLocal() {
+static std::vector<DispositivoComunicacion*> crearRedLocal() {   //vector p
     std::vector<DispositivoComunicacion*> red;
     red.push_back(new RouterWiFi("RTR-01", "192.168.1.1", 12));
     red.push_back(new GatewayLoRa("GW-868", "192.168.1.20", 868.1f));
@@ -43,12 +43,12 @@ static std::vector<DispositivoComunicacion*> crearRedLocal() {
     return red;
 }
 
-static void liberarRed(std::vector<DispositivoComunicacion*>& red) {
+static void liberarRed(std::vector<DispositivoComunicacion*>& red) {  //liberacion de memoria 
     for (DispositivoComunicacion* dev : red) {
         delete dev;  
-    }
+    }                         // we esto hizo falta en el anterio entregable xd 
     red.clear();
-}
+}    //liberacion de memoria 
 
 
 static std::vector<EventoIngenieria2027::Evento> crearEventos2027() {
@@ -121,10 +121,10 @@ static void bloque2Hilos(std::vector<DispositivoComunicacion*>& red,
 
     
     subtitulo("Hilo dedicado: agenda de eventos 2027");
-    std::thread hiloAgenda(&EventoIngenieria2027::procesarAgenda,
+    std::thread hiloAgenda(&EventoIngenieria2027::procesarAgenda,  //hilo unico 
                            &agenda, crearEventos2027(), std::ref(estadisticas));
     if (hiloAgenda.joinable()) {
-        hiloAgenda.join();
+        hiloAgenda.join(); //hilo iunico fin
     }
 
     
@@ -156,14 +156,14 @@ static void bloque3TCP(const std::vector<DispositivoComunicacion*>& red, Estadis
     std::thread hiloServidor(&ServidorCentral::ejecutar, &servidor);
 
     
-    ClienteRemoto estacionA("Estacion-A", "127.0.0.1", PUERTO_TCP);
+    ClienteRemoto estacionA("Estacion-A", "127.0.0.1", PUERTO_TCP); //fallo controlado 
     ClienteRemoto estacionB("Estacion-B", "127.0.0.1", PUERTO_TCP);
     ClienteRemoto estacionCaida("Estacion-Caida", "127.0.0.1", 9);     
     std::vector<DispositivoComunicacion*> subconjunto(red.begin(), red.begin() + 2);
 
     ejecutarNodoRemoto(estacionA, "Estacion-A envia 4 dispositivos (uno es nullptr)", red, estadisticas);
     ejecutarNodoRemoto(estacionB, "Estacion-B envia 2 dispositivos", subconjunto, estadisticas);
-    ejecutarNodoRemoto(estacionCaida, "Estacion-Caida intenta conectar a un puerto sin servidor", subconjunto, estadisticas);
+    ejecutarNodoRemoto(estacionCaida, "Estacion-Caida intenta conectar a un puerto sin servidor", subconjunto, estadisticas); //fin del fallo controlado 
 
     servidor.detenerServidor();
     if (hiloServidor.joinable()) {

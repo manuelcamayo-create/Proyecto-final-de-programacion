@@ -54,7 +54,7 @@ public:
         sockaddr_in remitente;
         lon_dir_t len = sizeof(remitente);
 
-        auto bytes = recvfrom(sock.get(), reinterpret_cast<char*>(&trama),
+        auto bytes = recvfrom(sock.get(), reinterpret_cast<char*>(&trama), //err
                               static_cast<int>(sizeof(trama)), 0,
                               reinterpret_cast<sockaddr*>(&remitente), &len);
         if (bytes < 0) {
@@ -65,7 +65,7 @@ public:
             throw ExcepcionRedUDP("ERROR CATASTROFICO UDP", codigo);
         }
         if (static_cast<size_t>(bytes) != sizeof(TramaSensor)) {
-            throw ExcepcionRedUDP("Datagrama de tamano invalido (" + aTexto(bytes) + " bytes)", 0);
+            throw ExcepcionRedUDP("Datagrama de tamano invalido (" + aTexto(bytes) + " bytes)", 0); //err	
         }
         trama.tipoDispositivo[sizeof(trama.tipoDispositivo) - 1] = '\0';  // terminador defensivo
         return trama;

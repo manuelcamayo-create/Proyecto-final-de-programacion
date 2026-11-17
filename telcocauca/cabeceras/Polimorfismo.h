@@ -33,7 +33,7 @@ public:
     DispositivoComunicacion(std::string _id, std::string _tipo, std::string _ip)
         : id(_id), tipo(_tipo), ip(_ip) {}
 
-    virtual ~DispositivoComunicacion() = default;
+    virtual ~DispositivoComunicacion() = default; //el destrucctor virtual
 
     
     virtual void transmitir() = 0;   //puro, p
@@ -50,7 +50,7 @@ public:
     RouterWiFi(std::string _id, std::string _ip, int _canales)
         : DispositivoComunicacion(_id, "Router WiFi 6", _ip), canalesActivos(_canales) {}
 
-    void transmitir() override { //polimorfismo
+    void transmitir() override { //polimorfismo, sobre escritura 
         
         std::this_thread::sleep_for(std::chrono::milliseconds(150));
     }
@@ -94,7 +94,7 @@ public:
 };                    //herencia 
 
 
-inline void validarDispositivo(const DispositivoComunicacion* dev) {
+inline void validarDispositivo(const DispositivoComunicacion* dev) { //la validacion del puntero nulo
     if (dev == nullptr) {
         throw std::invalid_argument("Puntero nulo en el vector de dispositivos");
     }

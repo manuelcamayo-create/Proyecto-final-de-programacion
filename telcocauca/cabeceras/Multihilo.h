@@ -17,7 +17,7 @@ public:
 };
 
 
-inline std::vector<std::thread> lanzarTransmisiones(
+inline std::vector<std::thread> lanzarTransmisiones( //multi hilo creacion
         const std::vector<DispositivoComunicacion*>& red,
         SupervisorRed& supervisor,
         EstadisticasRed& est) {
@@ -26,16 +26,16 @@ inline std::vector<std::thread> lanzarTransmisiones(
         hilos.push_back(std::thread(&SupervisorRed::supervisar, &supervisor,
                                     red[i], std::ref(est)));
     }
-    return hilos;
+    return hilos;  //multiholo creacion
 }
 
 
-inline void sincronizarHilos(std::vector<std::thread>& hilos) {
+inline void sincronizarHilos(std::vector<std::thread>& hilos) { //sincronizacion 
     for (auto& t : hilos) {
         if (t.joinable()) {
             t.join();
         }
     }
-}
+} //sincronizacion 
 
 #endif 

@@ -42,12 +42,12 @@ inline void imprimirSeguro(const std::string& texto) {
     std::lock_guard<std::mutex> lock(mtx_consola);
     std::cout << texto << std::endl;
 }
-
+//exclucion mutua
 inline void registrarEventoSeguro(const std::string& mensaje) {
    
     std::lock_guard<std::mutex> lock(mtx_consola);
     std::cout << "  [" << etiquetaHilo(std::this_thread::get_id()) << "] " << mensaje << std::endl;
-}
+} //excluacion mutua
 
 
 class EventoIngenieria2027;
